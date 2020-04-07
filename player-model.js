@@ -18,6 +18,17 @@ const getPlayers = () => {
   }) 
 }
 
+const getRiders = () => {
+  return new Promise(function(resolve, reject) {
+    pool.query('SELECT * FROM riders ORDER BY number ASC', (error, results) => {
+      if (error) {
+        reject(error)
+      }
+      resolve(results.rows);
+    })
+  }) 
+}
+
 const getPlayersRiders = (playerID) => {
   const id = parseInt(playerID)
   console.log("trying to get riders for player id: " )
@@ -45,11 +56,13 @@ const getPlayersRiders = (playerID) => {
 const createPlayer = (body) => {
   return new Promise(function(resolve, reject) {
     const { name, password, teamName } = body
-    pool.query('INSERT INTO players (name, password, teamname) VALUES ($1, $2, $3) RETURNING *', [name, password, teamName], (error, results) => {
+    const points = 0
+    console.log(" playermodel: " + name + " - " + password + " - " + teamName)
+    pool.query('INSERT INTO players (name, password, teamname, points) VALUES ($1, $2, $3, $4) RETURNING *', [name, password, teamName, points], (error, results) => {
       if (error) {
         reject(error)
       }
-      resolve(`A new player has been added: ${results.rows[0]}`)
+      resolve(results.rows[0])
     })
   })
 }
@@ -73,4 +86,5 @@ module.exports = {
   getPlayersRiders,
   createPlayer,
   deletePlayer,
+  getRiders,
 }

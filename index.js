@@ -22,6 +22,16 @@ app.get('/', (req, res) => {
   })
 })
 
+app.get('/riders', (req, res) => {
+  player_model.getRiders()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 app.get('/playersriders/:id', (req, res) => {
   console.log("req.params.id: " + req.params.id)
   player_model.getPlayersRiders(req.params.id)

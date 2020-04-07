@@ -63,8 +63,7 @@ class Login extends React.Component {
           alert("id and pass did not match")
         }
       })()
-
-  }
+  }  
 
   render() {
     let renderContent = ''
